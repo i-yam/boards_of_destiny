@@ -5,16 +5,17 @@ import math
 import asyncio
 
 # --- Configuration ---
-WIDTH, HEIGHT = 600, 680
+WIDTH, HEIGHT = 900, 1020
 FPS = 60
 
 # Colors
 BG_COLOR = (25, 25, 35)
+WHITE = (255, 255, 255)
 PEG_COLOR = (140, 145, 165)
 PEG_HIGHLIGHT = (180, 185, 200)
 BIN_BORDER_COLOR = (60, 65, 80)
-TEXT_COLOR = (200, 200, 220)
-DIM_TEXT_COLOR = (100, 105, 120)
+TEXT_COLOR = WHITE
+DIM_TEXT_COLOR = (210, 210, 220)
 ACCENT_GAUSS = (80, 180, 120)
 ACCENT_PARETO = (220, 120, 80)
 ACCENT_COMPETITION = (130, 100, 220)
@@ -24,20 +25,20 @@ BTN_BORDER = (90, 92, 110)
 
 # Board layout
 NUM_ROWS = 10
-PEG_RADIUS = 3
-BALL_RADIUS = 3
-LANDED_BALL_RADIUS = 2
-LANDED_BALL_STEP = 5
-PEG_SPACING_X = 32
-PEG_SPACING_Y = 28
-BOARD_TOP = 80
+PEG_RADIUS = 5
+BALL_RADIUS = 5
+LANDED_BALL_RADIUS = 3
+LANDED_BALL_STEP = 8
+PEG_SPACING_X = 48
+PEG_SPACING_Y = 42
+BOARD_TOP = 120
 CENTER_X = WIDTH // 2
 
 # Bins
 NUM_BINS = NUM_ROWS + 1
 BIN_WIDTH = PEG_SPACING_X
-BIN_TOP = BOARD_TOP + NUM_ROWS * PEG_SPACING_Y + 16
-BIN_BOTTOM = HEIGHT - 25
+BIN_TOP = BOARD_TOP + NUM_ROWS * PEG_SPACING_Y + 24
+BIN_BOTTOM = HEIGHT - 38
 
 # Ball spawning
 SPAWN_INTERVAL = 4
@@ -127,7 +128,7 @@ class Ball:
         )
 
     def _build_path(self):
-        path = [(CENTER_X, BOARD_TOP - 14)]
+        path = [(CENTER_X, BOARD_TOP - 20)]
         col = 0
         for row in range(NUM_ROWS):
             px, py = peg_pos(row, col)
@@ -136,7 +137,7 @@ class Ball:
             path.append((px + offset_x, py + PEG_RADIUS + BALL_RADIUS))
             col += d
         bx = bin_center_x(self.final_bin)
-        path.append((bx, BIN_TOP + 10))
+        path.append((bx, BIN_TOP + 15))
         return path
 
     def update(self):
@@ -161,7 +162,7 @@ class Ball:
 
 
 class Button:
-    def __init__(self, x, y, w, h, text, font, color=TEXT_COLOR, accent=None):
+    def __init__(self, x, y, w, h, text, font, color=WHITE, accent=None):
         self.rect = pygame.Rect(x, y, w, h)
         self.text = text
         self.font = font
@@ -171,8 +172,8 @@ class Button:
     def draw(self, surface, mouse_pos):
         hovered = self.rect.collidepoint(mouse_pos)
         bg = BTN_HOVER if hovered else BTN_BG
-        pygame.draw.rect(surface, bg, self.rect, border_radius=6)
-        pygame.draw.rect(surface, BTN_BORDER, self.rect, 1, border_radius=6)
+        pygame.draw.rect(surface, bg, self.rect, border_radius=8)
+        pygame.draw.rect(surface, BTN_BORDER, self.rect, 1, border_radius=8)
         txt_color = self.accent if self.accent else self.color
         txt = self.font.render(self.text, True, txt_color)
         surface.blit(txt, (
@@ -186,14 +187,14 @@ class Button:
 
 def draw_pixel_coin(surface, cx, cy, radius, label, color, border_color, text_color):
     pygame.draw.circle(surface, border_color, (cx, cy), radius)
-    pygame.draw.circle(surface, color, (cx, cy), radius - 2)
-    pygame.draw.circle(surface, border_color, (cx, cy), radius - 4, 1)
+    pygame.draw.circle(surface, color, (cx, cy), radius - 3)
+    pygame.draw.circle(surface, border_color, (cx, cy), radius - 5, 1)
     for angle_deg in range(0, 360, 30):
         rad = math.radians(angle_deg)
-        dx = int(math.cos(rad) * (radius - 3))
-        dy = int(math.sin(rad) * (radius - 3))
+        dx = int(math.cos(rad) * (radius - 4))
+        dy = int(math.sin(rad) * (radius - 4))
         surface.set_at((cx + dx, cy + dy), border_color)
-    coin_font = pygame.font.SysFont("Helvetica", 9, bold=True)
+    coin_font = pygame.font.SysFont("Helvetica", 14, bold=True)
     txt = coin_font.render(label, True, text_color)
     surface.blit(txt, (cx - txt.get_width() // 2, cy - txt.get_height() // 2))
 
@@ -204,10 +205,10 @@ async def main():
     pygame.display.set_caption("Boards of Destiny")
     clock = pygame.time.Clock()
 
-    font = pygame.font.SysFont("Helvetica", 14)
-    title_font = pygame.font.SysFont("Helvetica", 24, bold=True)
-    small_font = pygame.font.SysFont("Helvetica", 11)
-    btn_font = pygame.font.SysFont("Helvetica", 13, bold=True)
+    font = pygame.font.SysFont("Helvetica", 21)
+    title_font = pygame.font.SysFont("Helvetica", 36, bold=True)
+    small_font = pygame.font.SysFont("Helvetica", 17)
+    btn_font = pygame.font.SysFont("Helvetica", 20, bold=True)
 
     # Pre-compute peg positions
     pegs = []
@@ -216,14 +217,14 @@ async def main():
             pegs.append(peg_pos(row, col))
 
     # Mode selection buttons
-    btn_w, btn_h = 460, 60
+    btn_w, btn_h = 690, 90
     btn_x = CENTER_X - btn_w // 2
-    base_y = HEIGHT // 2 - 130
+    base_y = HEIGHT // 2 - 195
     btn_gauss = Button(btn_x, base_y, btn_w, btn_h,
                        "Classical Galton Board", font, accent=ACCENT_GAUSS)
-    btn_pareto = Button(btn_x, base_y + 75, btn_w, btn_h,
+    btn_pareto = Button(btn_x, base_y + 115, btn_w, btn_h,
                         "Pareto Board", font, accent=ACCENT_PARETO)
-    btn_competition = Button(btn_x, base_y + 150, btn_w, btn_h,
+    btn_competition = Button(btn_x, base_y + 230, btn_w, btn_h,
                              "Competition Board", font, accent=ACCENT_COMPETITION)
     mode_buttons = [
         (btn_gauss, MODE_GAUSS),
@@ -261,24 +262,23 @@ async def main():
 
             screen.fill(BG_COLOR)
 
-            title = title_font.render("Boards of Destiny", True, TEXT_COLOR)
-            screen.blit(title, (CENTER_X - title.get_width() // 2, 40))
+            title = title_font.render("Boards of Destiny", True, WHITE)
+            screen.blit(title, (CENTER_X - title.get_width() // 2, 60))
 
-            prompt = font.render("Choose a mode:", True, DIM_TEXT_COLOR)
-            screen.blit(prompt, (CENTER_X - prompt.get_width() // 2, 80))
+            prompt = font.render("Choose a mode:", True, WHITE)
+            screen.blit(prompt, (CENTER_X - prompt.get_width() // 2, 120))
 
             for btn, m in mode_buttons:
                 btn.draw(screen, mouse_pos)
-                # Description below button
                 desc = small_font.render(mode_descs[m], True, DIM_TEXT_COLOR)
-                screen.blit(desc, (CENTER_X - desc.get_width() // 2, btn.rect.bottom + 4))
+                screen.blit(desc, (CENTER_X - desc.get_width() // 2, btn.rect.bottom + 6))
 
             # Pixel art coins
-            coin_y = HEIGHT - 60
-            coin_r = 28
-            draw_pixel_coin(screen, CENTER_X - 55, coin_y, coin_r,
+            coin_y = HEIGHT - 90
+            coin_r = 42
+            draw_pixel_coin(screen, CENTER_X - 80, coin_y, coin_r,
                             "SUCCESS", (220, 190, 60), (170, 140, 30), (100, 75, 10))
-            draw_pixel_coin(screen, CENTER_X + 55, coin_y, coin_r,
+            draw_pixel_coin(screen, CENTER_X + 80, coin_y, coin_r,
                             "FAILURE", (160, 170, 185), (100, 110, 125), (50, 55, 65))
 
             pygame.display.flip()
@@ -307,10 +307,10 @@ async def main():
         accent = mode_accents[mode]
 
         # Control buttons during simulation
-        ctrl_btn_w, ctrl_btn_h = 80, 26
-        btn_pause = Button(CENTER_X - ctrl_btn_w - 10, 52, ctrl_btn_w, ctrl_btn_h,
+        ctrl_btn_w, ctrl_btn_h = 120, 39
+        btn_pause = Button(CENTER_X - ctrl_btn_w - 15, 78, ctrl_btn_w, ctrl_btn_h,
                            "Pause", btn_font)
-        btn_reset = Button(CENTER_X + 10, 52, ctrl_btn_w, ctrl_btn_h,
+        btn_reset = Button(CENTER_X + 15, 78, ctrl_btn_w, ctrl_btn_h,
                            "Reset", btn_font)
 
         reset = False
@@ -357,16 +357,16 @@ async def main():
             screen.fill(BG_COLOR)
 
             # Title
-            title_surf = title_font.render("Boards of Destiny", True, TEXT_COLOR)
-            screen.blit(title_surf, (CENTER_X - title_surf.get_width() // 2, 8))
+            title_surf = title_font.render("Boards of Destiny", True, WHITE)
+            screen.blit(title_surf, (CENTER_X - title_surf.get_width() // 2, 10))
 
             # Mode label
             mode_surf = font.render(f"Mode: {mode_label}", True, accent)
-            screen.blit(mode_surf, (CENTER_X - mode_surf.get_width() // 2, 36))
+            screen.blit(mode_surf, (CENTER_X - mode_surf.get_width() // 2, 52))
 
             # Ball counter
             counter = small_font.render(f"Balls: {total_spawned}/{MAX_BALLS}", True, DIM_TEXT_COLOR)
-            screen.blit(counter, (10, 56))
+            screen.blit(counter, (15, 84))
 
             # Control buttons
             btn_pause.text = "Resume" if paused else "Pause"
@@ -393,7 +393,7 @@ async def main():
                 if bin_counts[i] > 0:
                     label = small_font.render(str(bin_counts[i]), True, DIM_TEXT_COLOR)
                     lx = int(bin_center_x(i)) - label.get_width() // 2
-                    screen.blit(label, (lx, BIN_BOTTOM + 5))
+                    screen.blit(label, (lx, BIN_BOTTOM + 8))
 
             # Landed balls
             for (bx, by, color) in landed_positions:
@@ -406,7 +406,7 @@ async def main():
             # Paused indicator
             if paused:
                 pause_surf = title_font.render("PAUSED", True, (255, 255, 100))
-                screen.blit(pause_surf, (CENTER_X - pause_surf.get_width() // 2, HEIGHT // 2 - 20))
+                screen.blit(pause_surf, (CENTER_X - pause_surf.get_width() // 2, HEIGHT // 2 - 30))
 
             pygame.display.flip()
             clock.tick(FPS)
