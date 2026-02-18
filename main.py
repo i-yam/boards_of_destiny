@@ -373,15 +373,6 @@ async def main():
             btn_pause.draw(screen, mouse_pos)
             btn_reset.draw(screen, mouse_pos)
 
-            # Funnel
-            funnel_top_y = BOARD_TOP - 18
-            funnel_w = 35
-            p0x, p0y = peg_pos(0, 0)
-            pygame.draw.line(screen, BIN_BORDER_COLOR,
-                             (p0x - funnel_w, funnel_top_y), (p0x - 8, p0y - 10), 2)
-            pygame.draw.line(screen, BIN_BORDER_COLOR,
-                             (p0x + funnel_w, funnel_top_y), (p0x + 8, p0y - 10), 2)
-
             # Pegs
             for (px, py) in pegs:
                 pygame.draw.circle(screen, PEG_COLOR, (int(px), int(py)), PEG_RADIUS)
