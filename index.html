@@ -76,7 +76,7 @@
         .two-col .video-wrap {
             position: relative;
             width: 100%;
-            padding-bottom: 177%; /* 9:16 for shorts */
+            padding-bottom: 133%; /* cropped to match photo height */
             height: 0;
             overflow: hidden;
             border-radius: 8px;
@@ -197,7 +197,7 @@
             gap: 8px;
         }
 
-        .formula-option .katex { font-size: 1.1em; }
+        .formula-option .katex { font-size: 1.43em; }
 
         /* Game embed */
         .game-section {
@@ -329,13 +329,10 @@
 <section class="clearfix">
     <h2>Why Gauss Called It "Normal"</h2>
 
-    <img src="images/Gauss.jpg" alt="Carl Friedrich Gauss" class="img-right">
+    <img src="images/normal.jpg" alt="Normal distribution" class="img-left">
 
     <p>Carl Friedrich Gauss was not a humble man, but he was an honest one.</p>
     <p>He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.</p>
-
-    <img src="images/normal.jpg" alt="Normal distribution" class="img-left">
-
     <p>Gauss called it the normal distribution because it seemed to be the natural outcome of summed randomness. The universe's default answer when you ask it to add things up. The name stuck. The curve stayed.</p>
 </section>
 
@@ -344,10 +341,11 @@
     <h2>Now Let's Tinker with the Board</h2>
     <p>The Galton Board produces beautiful bell curves under one silent assumption: each peg is fair. Each ball has a fifty-fifty chance, regardless of what happened before. The past does not matter. The ball does not remember.</p>
     <p>But people do.</p>
-    <p>Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
-    <p>This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
 
     <img src="images/Pareto.jpg" alt="Vilfredo Pareto" class="img-left">
+
+    <p>Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
+    <p>This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
 
     <p>The result is no longer a bell curve. The distribution skews hard. Say, 80 percent of balls end up below the midpoint. Twenty percent accumulate above it. You may recognize this ratio. Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. It is not magic. It is path dependency doing its quiet, merciless work.</p>
 
@@ -355,8 +353,8 @@
     <div class="quiz" id="quiz3">
         <div class="quiz-question">Can you guess which is a Pareto Distribution?</div>
         <div class="quiz-options">
-            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, true)">Sales numbers of different salesmen in a given organization</button>
-            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, false)">Height of different salesmen in a given organization</button>
+            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, true)">Sales numbers of salesmen in a given organization</button>
+            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, false)">Heights of salesmen in a given organization</button>
         </div>
         <div class="quiz-feedback" id="quiz3-feedback"></div>
     </div>
@@ -369,15 +367,10 @@
     <p>In the real world, you are not falling through pegs alone. You are falling through pegs while ten thousand other balls are doing the same. And your chance of going right is not just a function of your own history&nbsp;&mdash; it depends on how many balls are already to your right. More successful competitors means lower probability of success for you. Mathematically, the chance to jump right becomes inversely proportional to the number of balls ahead of you.</p>
     <p>Run this simulation. The result is not a bell curve. It is not even the skewed Pareto curve from before. It is something sharper and more brutal: a power-law distribution. The overwhelming majority of balls&nbsp;&mdash; 80 percent, 90 percent, sometimes more&nbsp;&mdash; pile up in the leftmost bin. A tiny fraction accumulates almost everything.</p>
     <p>This is not a hypothetical. This is book sales. The top 1 percent of published books account for the overwhelming majority of revenue. This is music streaming. A small number of songs collect most of the listens while millions of tracks sit in statistical silence. The rich get richer not because they are clever villains twirling mustaches in corner offices. They get richer because social systems are simultaneously random, competitive, and coupled with feedback. Three ingredients. That's the whole recipe.</p>
-</section>
+    <p>Here is the demo of all three boards. Play around. Rerun the experiments. Observe how different rules result in different dynamics.</p>
 
-<!-- Section: Play with the Demo -->
-<section class="game-section">
-    <h2>Play with the Demo</h2>
-    <p style="text-align:center; color:#ccc;">Here is the demo of all three boards. Play around. Rerun the experiments. Observe how a slight change of the rules results in a different dynamics.</p>
-
-    <div class="game-frame-wrap">
-        <iframe src="game.html" title="Boards of Destiny Demo" allowfullscreen></iframe>
+    <div class="game-frame-wrap" style="margin: 30px auto;">
+        <iframe src="game.html" title="Boards of Destiny Demo" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" allowfullscreen></iframe>
     </div>
 </section>
 
