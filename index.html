@@ -234,6 +234,41 @@
             border-radius: 10px;
         }
 
+        /* Collapsible task */
+        .collapsible-task {
+            background: #1c1c2e;
+            border: 1px solid #2a2a40;
+            border-radius: 10px;
+            padding: 20px 28px;
+            margin: 30px 0;
+        }
+
+        .collapsible-task summary {
+            font-size: 18px;
+            font-weight: bold;
+            color: #dc7850;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .collapsible-task summary::before {
+            content: "\25B6  ";
+            font-size: 14px;
+        }
+
+        .collapsible-task[open] summary::before {
+            content: "\25BC  ";
+        }
+
+        .collapsible-task summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .collapsible-task p {
+            margin-top: 16px;
+            color: #ccc;
+        }
+
         /* Link */
         a {
             color: #80b4f0;
@@ -346,11 +381,18 @@
     <p>But people do.</p>
 
     <img src="images/Pareto.jpg" alt="Vilfredo Pareto" class="img-left">
+    <div class="caption" style="float:left; clear:left; width:280px; margin-top:-12px;">Vilfredo Pareto</div>
 
     <p>Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
     <p>This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
 
-    <p>The result is no longer a bell curve. The distribution skews hard. Say, 80 percent of balls end up below the midpoint. Twenty percent accumulate above it. You may recognize this ratio. Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. It is not magic. It is path dependency doing its quiet, merciless work.</p>
+    <p>The result will no longer be a bell curve, but it will still resemble a bell a bit. Just the bell will be shifted to the left. The thing is that nature is actually not very "normal" and the bell curves occur far less often than Gauss expected. Thus, we need to talk about another guy you can see on the photo.</p>
+    <p>Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden: 20 percent of the pea pods contained 80% of all the peas. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. This type of behaviour also emerges in social systems.</p>
+
+    <details class="collapsible-task">
+        <summary>A task for thought students</summary>
+        <p>This mini-module ends with a demo of three different Galton boards. Two of the boards produce non-normal distributions but none of the boards actually produces a Pareto distribution. If you feel that the force is with you, finish the module, go to the github repo listed in the end, fork it and try to build a modification of a Galton board that would produce an actual Pareto distribution.</p>
+    </details>
 
     <!-- Quiz 3 -->
     <div class="quiz" id="quiz3">

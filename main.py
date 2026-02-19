@@ -223,7 +223,7 @@ async def main():
     btn_gauss = Button(btn_x, base_y, btn_w, btn_h,
                        "Classical Galton Board", font, accent=ACCENT_GAUSS)
     btn_pareto = Button(btn_x, base_y + 115, btn_w, btn_h,
-                        "Pareto Board", font, accent=ACCENT_PARETO)
+                        "Memory Board", font, accent=ACCENT_PARETO)
     btn_competition = Button(btn_x, base_y + 230, btn_w, btn_h,
                              "Competition Board", font, accent=ACCENT_COMPETITION)
     mode_buttons = [
@@ -295,7 +295,7 @@ async def main():
 
         mode_labels = {
             MODE_GAUSS: "Classical Galton Board",
-            MODE_PARETO: "Pareto Board",
+            MODE_PARETO: "Memory Board",
             MODE_COMPETITION: "Competition Board",
         }
         mode_accents = {
