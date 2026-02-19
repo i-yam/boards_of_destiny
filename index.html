@@ -114,6 +114,13 @@
             border-radius: 8px;
         }
 
+        .img-left-sm {
+            float: left;
+            width: 180px;
+            margin: 0 30px 20px 0;
+            border-radius: 8px;
+        }
+
         .clearfix::after {
             content: "";
             display: table;
@@ -169,9 +176,9 @@
         }
 
         .quiz-btn.wrong {
-            background: #4a1a1a;
-            border-color: #c85050;
-            color: #f08080;
+            background: #2a2248;
+            border-color: #8264dc;
+            color: #a88ef0;
         }
 
         .quiz-btn.disabled {
@@ -187,7 +194,7 @@
         }
 
         .quiz-feedback.success { color: #70e898; }
-        .quiz-feedback.fail { color: #f0a060; }
+        .quiz-feedback.fail { color: #a88ef0; }
 
         /* KaTeX formulas */
         .formula-option {
@@ -254,7 +261,7 @@
             h2 { font-size: 24px; }
             body { font-size: 16px; }
             .two-col { flex-direction: column; }
-            .img-right, .img-left {
+            .img-right, .img-left, .img-left-sm {
                 float: none;
                 width: 100%;
                 margin: 20px 0;
@@ -329,7 +336,7 @@
 <section class="clearfix">
     <h2>Why Gauss Called It "Normal"</h2>
 
-    <img src="images/normal.jpg" alt="Normal distribution" class="img-left">
+    <img src="images/normal.jpg" alt="Normal distribution" class="img-left-sm">
 
     <p>Carl Friedrich Gauss was not a humble man, but he was an honest one.</p>
     <p>He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.</p>
@@ -419,7 +426,7 @@ const quizData = {
     },
     quiz2: {
         correct: "Well done!",
-        wrong: "No. This is the probability density function of a Pareto Distribution. And we'll talk about it in a minute. Read on!"
+        wrong: "You chose the probability density function of a Pareto Distribution. And we'll talk about it in a minute. Read on!"
     },
     quiz3: {
         correct: "Well done!",
