@@ -1,430 +1,478 @@
-<html lang="en-us"><script src="https://pygame-web.github.io/cdn/0.9.3/pythons.js" type=module id="site" data-python="python3.12" data-LINES=42 data-COLUMNS=132 data-os="vtx,snd,gui" async defer>#<!--
-
-print("""
-Loading boards_of_destiny_deploy from boards_of_destiny_deploy.apk
-    Pygbag Version : 0.9.3
-    Template Version : 0.9.3
-    Python  : 3.12
-    CDN URL : https://pygame-web.github.io/cdn/0.9.3/
-    Screen  : 1280x720
-    Title   : boards_of_destiny_deploy
-    Folder  : boards_of_destiny_deploy
-    Authors : pgw
-    SPDX-License-Identifier: cookiecutter.spdx
-
-""")
-
-import sys
-import asyncio
-import platform
-import json
-from pathlib import Path
-
-# do not rename
-async def custom_site():
-    import embed
-    platform.document.body.style.background = "#7f7f7f"
-
-    platform.window.transfer.hidden = true
-    platform.window.canvas.style.visibility = "visible"
-
-
-    bundle = "boards_of_destiny_deploy"
-
-    # the C or js loader could do that but be explicit.
-    appdir = Path(f"/data/data/{bundle}") # /data/data/boards_of_destiny_deploy
-    appdir.mkdir()
-
-
-    # unpack filesystem from compressed archive into work dir
-    if platform.window.location.host.find('.itch.zone')>0:
-        import zipfile
-        async with platform.fopen("boards_of_destiny_deploy.apk", "rb") as archive:
-            with zipfile.ZipFile(archive) as zip_ref:
-                zip_ref.extractall(appdir.as_posix())
-    else:
-        import tarfile
-        async with platform.fopen("boards_of_destiny_deploy.tar.gz", "rb") as archive:
-            tar = tarfile.open(fileobj=archive, mode="r:gz")
-            tar.extractall(path=appdir.as_posix(), filter='tar')
-            tar.close()
-
-    # preloader will change to work dir and prepend it to sys.path
-    platform.run_main(PyConfig, loaderhome= appdir / "assets", loadermain=None)
-
-
-    # wait preloading complete : that includes images and wasm compilation of bundled modules
-    while embed.counter()<0:
-        await asyncio.sleep(.1)
-
-    main = appdir / "assets" / "main.py"
-
-    # TODO: test for window.webkitAudioContext and block aio loop until gesture if accessing media manager play
-    # before a gesture is recorded ( touch or click )
-
-    # auto-start: no click needed
-    platform.window.MM.UME = true
-
-    # start async top level machinery if not started and add a console in any case if requested.
-    await TopLevel_async_handler.start_toplevel(platform.shell, console=window.python.config.debug)
-
-    # now that apk is mounted we have access to font cache
-    # but we need to fill __file__/__name__ that are not yet set
-    __import__(__name__).__file__ = main
-
-
-    def ui_callback(pkg):
-        platform.window.infobox.innerText = f"installing {pkg}"
-
-    await shell.source(main, callback=ui_callback)
-
-    # if you don't reach that step
-    # your main.py has an infinite sync loop somewhere !
-
-    platform.window.infobox.style.display = "none"
-    platform.window.config.gui_divider = 1
-    platform.window.window_resize()
-    print("default.tmpl: done")
-
-    shell.interactive()
-
-asyncio.run( custom_site() )
-
-
-
-
-
-
-
-
-
-
-
-
-# BEGIN BLOCK
-#
-# now this is the html part you can (and should) customize
-# It is not mandatory : pygame-script when it reads the first line (also called
-# shebang ) of above code create absolute minimal widget set
-# required for running with default rules
-#
-# do not alter that comment block it is separating python code from html code
-# =============================================================================
-# --></script><head><!--
-//=============================================================================
-//
-//
-//
-//
-//
-//
-//
-
-    {%- if cookiecutter.comment != "" -%}
-{{cookiecutter.comment}}
-    {% endif %}
-
---><script type="application/javascript">
-// END BLOCK
-
-
-
-// this dict is available under PyConfig.config from __main__
-
-config = {
-    xtermjs : "1" ,
-    _sdl2 : "canvas",
-    user_canvas : 0,
-    user_canvas_managed : 0,
-    gui_divider : 2,
-    ume_block : 0,
-    can_close : 0,
-    archive : "boards_of_destiny_deploy",
-    gui_debug : 2,
-    cdn : "https://pygame-web.github.io/cdn/0.9.3/",
-    autorun : 0,
-    PYBUILD : "3.12",
-    fb_ar   :  1.77,
-    fb_width : "1280",
-    fb_height : "720"
-}
-
-function show_infobox() {
-    infobox.style.display = "block";
-
-    // Measure box
-    const w = infobox.offsetWidth;
-    const h = infobox.offsetHeight;
-
-    // Center in viewport
-    const left = (window.innerWidth - w) / 2;
-    const top = (window.innerHeight - h) / 2;
-
-    infobox.style.left = left + "px";
-    infobox.style.top = top + "px";
-}
-
-</script>
-
-    <title>boards_of_destiny_deploy</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="height=device-height, initial-scale=1.0">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-
-
+    <title>Boards of Destiny</title>
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <style>
-        #status {
-            display: inline-block;
-            vertical-align: top;
-            margin-top: 20px;
-            margin-left: 30px;
-            font-weight: bold;
-            color: rgb(120, 120, 120);
-        }
-
-        #progress {
-            height: 20px;
-            width: 300px;
-        }
-
-        #infobox {
-            position: fixed;
-            background: #191923;
-            color: #c8c8dc;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 24px 40px;
-            border-radius: 10px;
-            border: 1px solid #3c3d50;
-            z-index: 999999;
-            text-align: center;
-        }
-        div.emscripten { text-align: center; }
-        div.emscripten_border { border: 1px solid black; }
-        div.thick_border { border: 4px solid black; }
-
-        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-        /* average size of droid screen 470dp x 320dp  */
-        canvas.emscripten {
-            border: 0px none;
-            background-color: transparent;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-
-            padding: 0;
-            margin: 0 auto;
-
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: arial;
-            margin: 0;
-            padding: none;
-            background-color: #191923;
+            background-color: #141420;
+            color: #e8e8f0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.8;
+            font-size: 18px;
         }
 
-        .topright{
-           position:absolute;
-           top:0px;
-           right:0px;
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        .bottomright {
-            position:absolute;
-            top: 40%;
-            right: 0px;
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 40px;
         }
 
-        .center {
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 50px 0;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        /* Two-column layout */
+        .two-col {
             display: flex;
+            gap: 36px;
+            align-items: flex-start;
+            margin: 30px 0;
+        }
+
+        .two-col > div {
+            flex: 1;
+        }
+
+        .two-col img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .two-col .video-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 177%; /* 9:16 for shorts */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .two-col .video-wrap iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .caption {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Inline image floats */
+        .img-right {
+            float: right;
+            width: 240px;
+            margin: 0 0 20px 30px;
+            border-radius: 8px;
+        }
+
+        .img-left {
+            float: left;
+            width: 280px;
+            margin: 0 30px 20px 0;
+            border-radius: 8px;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Quiz */
+        .quiz {
+            background: #1c1c2e;
+            border: 1px solid #2a2a40;
+            border-radius: 10px;
+            padding: 28px;
+            margin: 30px 0;
+        }
+
+        .quiz-question {
+            font-size: 18px;
+            color: #e0e0f0;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-btn {
+            background: #2a2a44;
+            color: #e0e0f0;
+            border: 1px solid #3a3a55;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .quiz-btn:hover {
+            background: #363658;
+            border-color: #5a5a80;
+        }
+
+        .quiz-btn.correct {
+            background: #1a4a2a;
+            border-color: #50b878;
+            color: #70e898;
+        }
+
+        .quiz-btn.wrong {
+            background: #4a1a1a;
+            border-color: #c85050;
+            color: #f08080;
+        }
+
+        .quiz-btn.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .quiz-feedback {
+            margin-top: 14px;
+            font-size: 16px;
+            min-height: 24px;
+            line-height: 1.5;
+        }
+
+        .quiz-feedback.success { color: #70e898; }
+        .quiz-feedback.fail { color: #f0a060; }
+
+        /* KaTeX formulas */
+        .formula-option {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
         }
 
-        .trinfo{
-           position: relative;
-           right: 0px;
-           border: 1px solid black;
+        .formula-option .katex { font-size: 1.1em; }
+
+        /* Game embed */
+        .game-section {
+            padding: 50px 0;
+            text-align: center;
         }
 
-        .framed{
-           position: relative;
-           top: 150px;
-           right: 10px;
-           border: 1px solid black;
+        .game-frame-wrap {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto;
+            aspect-ratio: 900 / 1020;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2a2a40;
+        }
+
+        .game-frame-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Final image */
+        .full-img {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 30px auto;
+            border-radius: 10px;
+        }
+
+        /* Link */
+        a {
+            color: #80b4f0;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 24px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 680px) {
+            .hero h1 { font-size: 28px; }
+            h2 { font-size: 24px; }
+            body { font-size: 16px; }
+            .two-col { flex-direction: column; }
+            .img-right, .img-left {
+                float: none;
+                width: 100%;
+                margin: 20px 0;
+            }
+            .quiz-options { flex-direction: column; }
         }
     </style>
-
-    <script>
-/*
-        if (navigator.serviceWorker)
-            navigator.serviceWorker.register("https://pygame-web.github.io/cdn/0.9.3/pygbag0.9.3.js")
-        else
-            console.warn("Service workers not supported")
-*/
-    </script>
-
-    <script src="https://pygame-web.github.io/cdn/0.9.3//browserfs.min.js"></script>
-
 </head>
-
 <body>
 
-    <div id="transfer" align=center>
-<!--        <div class="spinner" id='spinner'></div> -->
-        <div class="emscripten" id="status">Downloading...</div>
-        <div class="emscripten">
-            <progress value="0" max="100" id="progress"></progress>
+<!-- Hero -->
+<div class="hero">
+    <h1>Why Do the Rich Get Richer? And What Does It Have to Do with Recommendation Algorithms?</h1>
+</div>
+
+<div class="container">
+
+<!-- Section: The Galton Board -->
+<section>
+    <h2>The Galton Board</h2>
+    <p>Francis Galton built a strange machine in 1889. A ball drops from the top. It hits a peg. It goes left or right. Fifty-fifty. Then it hits another peg. Left or right again. By the bottom, after dozens of such meaningless little decisions, something remarkable happens. The balls pile up in the shape of a bell. Every time. Without fail.</p>
+
+    <div class="two-col">
+        <div>
+            <img src="images/Galton.jpg" alt="Francis Galton">
+            <div class="caption">Francis Galton</div>
         </div>
-    </div>
-
-
-
-    <canvas class="emscripten" id="canvas"
-width="1px"
-height="1px"
-    oncontextmenu="event.preventDefault()" tabindex=1>
-    </canvas>
-
-    <canvas class="emscripten" id="canvas3d"
-width="1280px"
-height="720px"
-    oncontextmenu="event.preventDefault()" tabindex=1 hidden>
-    </canvas>
-
-    <div id="infobox">Demo is loading, please wait — it's worth it!</div>
-
-    <div id=html></div>
-
-    <div id=crt  class=bottomright >
-
-        <div id="system" hidden>
-            <div class="button-container">
-                <button id="aiostop" disabled>AIO ⏏︎</button>
-                <button id="aiopaused_true" disabled>AIO ■</button>
-                <button id="aiopaused_false" disabled>AIO ▶</button>
-                <button id="pygame_mixer_music_pause" disabled>Music ■</button>
+        <div>
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/MnBBV73KbDo" title="Galton Board" allowfullscreen></iframe>
             </div>
-
-            <div class="button-container">
-                <div id=load_min>min</div>
-                <div id=load_avg>avg</div>
-                <div id=load_max>max</div>
-              <button id="load_rst" disabled>RESET</button>
-            </div>
-
-            <div id="level">(battery level unknown)</div>
-            <div id="stateBattery">(charging state unknown)</div>
-
+            <div class="caption">Galton board</div>
         </div>
+    </div>
 
-        <div id=box class="emscripten_border" hidden=true>
+    <p>This is the Galton Board. A physical monument to one of the most important ideas in probability theory.</p>
 
-            <div id="info" class="trinfo"></div>
-
-            <iframe id="iframe" class="framed" name="iframe"
-width="470px" height="90%"
-allowtransparency="true"
-style="z-index: 10;"
-style="background: #FFFFFF;"
-frameborder="1"
-                allowfullscreen="true"
-                webkitallowfullscreen="true"
-                msallowfullscreen="true"
-                mozallowfullscreen="true"
-                sandbox="allow-same-origin allow-top-navigation allow-scripts allow-pointer-lock"
-                allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"
-                src="https://pygame-web.github.io/cdn/0.9.3/empty.html"
-                scrolling="yes">
-            </iframe>
+    <!-- Quiz 1 -->
+    <div class="quiz" id="quiz1">
+        <div class="quiz-question">Do you remember what the Central Limit Theorem is?</div>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="answerQuiz('quiz1', this, true)">Yes</button>
+            <button class="quiz-btn" onclick="answerQuiz('quiz1', this, false)">No</button>
         </div>
-
+        <div class="quiz-feedback" id="quiz1-feedback"></div>
     </div>
+</section>
 
+<!-- Section: Many Small Things -->
+<section>
+    <h2>Many Small Things Add Up to One Familiar Shape</h2>
+    <p>Here is the deeper point. It is not just balls and pegs.</p>
+    <p>Take any random variable. Flip a coin. Roll a die. Measure how long it takes your professor to answer an email. Now take many of these&nbsp;&mdash; sum them up, average them out. Something happens. The distribution of that sum starts looking like a bell curve. It doesn't matter much what the original distribution was. You sum enough random things, you get the normal distribution.</p>
+    <p>This is the Central Limit Theorem. It is one of those results that feels like it shouldn't be true and yet refuses to go away.</p>
 
-    <div id="dlg" hidden>
-        <input type="file" id="dlg_multifile" multiple accept="image/*">
-        <label for="dlg_multifile">Select files</label>
+    <!-- Quiz 2: Formulas -->
+    <div class="quiz" id="quiz2">
+        <div class="quiz-question">Which formula shows the probability density function of a Normal Distribution?</div>
+        <div class="quiz-options">
+            <button class="quiz-btn formula-option" onclick="answerQuiz('quiz2', this, false)">
+                <span id="formula-pareto"></span>
+            </button>
+            <button class="quiz-btn formula-option" onclick="answerQuiz('quiz2', this, true)">
+                <span id="formula-normal"></span>
+            </button>
+        </div>
+        <div class="quiz-feedback" id="quiz2-feedback"></div>
     </div>
+</section>
 
-    <div id="pyconsole">
-        <div id="terminal" tabIndex=1 align="left"></div>
+<!-- Section: Why Gauss Called It Normal -->
+<section class="clearfix">
+    <h2>Why Gauss Called It "Normal"</h2>
+
+    <img src="images/Gauss.jpg" alt="Carl Friedrich Gauss" class="img-right">
+
+    <p>Carl Friedrich Gauss was not a humble man, but he was an honest one.</p>
+    <p>He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.</p>
+
+    <img src="images/normal.jpg" alt="Normal distribution" class="img-left">
+
+    <p>Gauss called it the normal distribution because it seemed to be the natural outcome of summed randomness. The universe's default answer when you ask it to add things up. The name stuck. The curve stayed.</p>
+</section>
+
+<!-- Section: Tinker with the Board -->
+<section class="clearfix">
+    <h2>Now Let's Tinker with the Board</h2>
+    <p>The Galton Board produces beautiful bell curves under one silent assumption: each peg is fair. Each ball has a fifty-fifty chance, regardless of what happened before. The past does not matter. The ball does not remember.</p>
+    <p>But people do.</p>
+    <p>Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
+    <p>This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
+
+    <img src="images/Pareto.jpg" alt="Vilfredo Pareto" class="img-left">
+
+    <p>The result is no longer a bell curve. The distribution skews hard. Say, 80 percent of balls end up below the midpoint. Twenty percent accumulate above it. You may recognize this ratio. Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. It is not magic. It is path dependency doing its quiet, merciless work.</p>
+
+    <!-- Quiz 3 -->
+    <div class="quiz" id="quiz3">
+        <div class="quiz-question">Can you guess which is a Pareto Distribution?</div>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, true)">Sales numbers of different salesmen in a given organization</button>
+            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, false)">Height of different salesmen in a given organization</button>
+        </div>
+        <div class="quiz-feedback" id="quiz3-feedback"></div>
     </div>
+</section>
 
-    <script type="application/javascript">
+<!-- Section: Add Competition -->
+<section>
+    <h2>Add Competition. Watch It Get Worse.</h2>
+    <p>Now introduce one more ingredient: other balls.</p>
+    <p>In the real world, you are not falling through pegs alone. You are falling through pegs while ten thousand other balls are doing the same. And your chance of going right is not just a function of your own history&nbsp;&mdash; it depends on how many balls are already to your right. More successful competitors means lower probability of success for you. Mathematically, the chance to jump right becomes inversely proportional to the number of balls ahead of you.</p>
+    <p>Run this simulation. The result is not a bell curve. It is not even the skewed Pareto curve from before. It is something sharper and more brutal: a power-law distribution. The overwhelming majority of balls&nbsp;&mdash; 80 percent, 90 percent, sometimes more&nbsp;&mdash; pile up in the leftmost bin. A tiny fraction accumulates almost everything.</p>
+    <p>This is not a hypothetical. This is book sales. The top 1 percent of published books account for the overwhelming majority of revenue. This is music streaming. A small number of songs collect most of the listens while millions of tracks sit in statistical silence. The rich get richer not because they are clever villains twirling mustaches in corner offices. They get richer because social systems are simultaneously random, competitive, and coupled with feedback. Three ingredients. That's the whole recipe.</p>
+</section>
 
-    globalThis.__canvas_resized = (self, ecw, ech) => {
-        console.warn("TODO: panda3d canvas monitor", self, ecw, ech)
+<!-- Section: Play with the Demo -->
+<section class="game-section">
+    <h2>Play with the Demo</h2>
+    <p style="text-align:center; color:#ccc;">Here is the demo of all three boards. Play around. Rerun the experiments. Observe how a slight change of the rules results in a different dynamics.</p>
+
+    <div class="game-frame-wrap">
+        <iframe src="game.html" title="Boards of Destiny Demo" allowfullscreen></iframe>
+    </div>
+</section>
+
+<!-- Section: Enter the Algorithm -->
+<section>
+    <h2>Enter the Algorithm</h2>
+    <p>So far this has been probability theory and sociology. Now it becomes personal.</p>
+    <p>The content you see on social media is not entirely random. It is not curated by a thoughtful editor either. It is produced by a recommendation algorithm&nbsp;&mdash; a machine that has watched your behavior, found users who behave similarly, and decided to show you what those users also liked. This is called collaborative filtering, and it works remarkably well. It also does something else. It applies Galton Board dynamics to culture.</p>
+    <p>A content creator with more followers gets recommended to more users. More views mean more recommendations. More recommendations mean more views. A product on a marketplace with more reviews gets surfaced higher in search results, which generates more purchases, which generates more reviews. A restaurant with more ratings gets shown first, gets ordered from more, gets rated more. You see the structure. It is our "competitive" Galton Board, implemented in software, running at scale, optimizing for engagement.</p>
+    <p>In the literature, this is called the discovery problem. How does a new creator, a new product, a new restaurant break into a system that rewards incumbents? It is one of the genuinely hard problems in recommender systems design. Researchers publish papers on it. Companies run experiments. The problem persists. Partly because the feedback loop is not a bug&nbsp;&mdash; it is a natural consequence of using past behavior to predict future preferences. The algorithm is doing exactly what it was designed to do.</p>
+</section>
+
+<!-- Section: What You Can Do -->
+<section>
+    <h2>What You Can Do About It</h2>
+    <p>The algorithm is not your enemy. But it is not your friend either. It is a mirror that slightly distorts what it reflects, and then reflects the distortion back at you.</p>
+    <p>In most deployed recommendation systems, the algorithm controls what you discover far more than you control it. You click, it learns, it shows you more of the same. The loop tightens. The bubble forms. Not out of malice. Out of math.</p>
+    <p>But you have one advantage the algorithm lacks. You can act against your own history.</p>
+    <p>Search proactively. Look for creators you have never heard of. Order from the restaurant with twelve reviews, not twelve hundred. Try the book that has not been recommended to you. These small acts of deliberate exploration are exactly what the algorithm cannot do for you&nbsp;&mdash; because discovery, by definition, requires stepping outside the pattern the algorithm has learned.</p>
+    <p>The alternative is a media diet assembled by a machine trained on your past self. Every recommendation a reflection of who you already were. Every suggestion pulling you slightly further from the parts of the world that were not statistically adjacent to your previous clicks.</p>
+    <p>The Galton Board is indifferent. The pegs do not care where the ball lands.</p>
+    <p>You, presumably, do.</p>
+
+    <img src="images/touchgrass.jpg" alt="" class="full-img">
+</section>
+
+<!-- Section: Tinker with the Code -->
+<section>
+    <h2>Tinker with the Demo</h2>
+    <p>If you want to tinker with the code more and create your own modification of the Galton board, the code is available here:</p>
+    <p><a href="https://github.com/i-yam/boards_of_destiny" target="_blank">https://github.com/i-yam/boards_of_destiny</a></p>
+</section>
+
+</div>
+
+<footer>
+    Boards of Destiny
+</footer>
+
+<script>
+// Quiz logic
+const quizData = {
+    quiz1: {
+        correct: "Well done!",
+        wrong: "No worries! Read further."
+    },
+    quiz2: {
+        correct: "Well done!",
+        wrong: "No. This is the probability density function of a Pareto Distribution. And we'll talk about it in a minute. Read on!"
+    },
+    quiz3: {
+        correct: "Well done!",
+        wrong: "Not quite! Height tends to follow a Normal Distribution. Sales numbers, on the other hand, often follow a Pareto Distribution &mdash; a few top performers account for most of the revenue."
     }
+};
 
-    async function custom_onload(debug_hidden) {
-        // this is called before anything python is loaded
-        // make your js customization here
-        console.log(__FILE__, "custom_onload")
+function answerQuiz(quizId, btn, isCorrect) {
+    const quiz = document.getElementById(quizId);
+    const feedback = document.getElementById(quizId + '-feedback');
+    const buttons = quiz.querySelectorAll('.quiz-btn');
 
-        pyconsole.hidden = debug_hidden
-        system.hidden = debug_hidden
-        transfer.hidden = debug_hidden
-        info.hidden = debug_hidden
-        box.hidden =  debug_hidden
+    buttons.forEach(b => b.classList.add('disabled'));
 
-        show_infobox()
+    if (isCorrect) {
+        btn.classList.add('correct');
+        feedback.className = 'quiz-feedback success';
+        feedback.innerHTML = quizData[quizId].correct;
+    } else {
+        btn.classList.add('wrong');
+        feedback.className = 'quiz-feedback fail';
+        feedback.innerHTML = quizData[quizId].wrong;
     }
+}
 
-    function custom_prerun(){
-        // no python main and no (MEMFS + VFS) yet.
-        console.log(__FILE__, "custom_prerun")
-
+// Render KaTeX formulas once loaded
+document.addEventListener('DOMContentLoaded', function() {
+    function tryRenderFormulas() {
+        if (typeof katex !== 'undefined') {
+            katex.render(
+                "f(x) = \\frac{\\alpha \\, x_m^{\\alpha}}{x^{\\alpha+1}}, \\quad x \\ge x_m",
+                document.getElementById('formula-pareto'),
+                { throwOnError: false, displayMode: false }
+            );
+            katex.render(
+                "f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} \\, e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}",
+                document.getElementById('formula-normal'),
+                { throwOnError: false, displayMode: false }
+            );
+        } else {
+            setTimeout(tryRenderFormulas, 200);
+        }
     }
-
-    function custom_postrun(){
-        // python main and no VFS filesystem yet.
-        console.log(__FILE__, "custom_postrun")
-
-    }
-
-    function debug() {
-        // allow to gain access to dev tools from js console
-        // but only on desktop. difficult to reach when in iframe
-        python.config.debug = true
-        custom_onload(false)
-        Module.PyRun_SimpleString("shell.uptime()")
-        window_resize()
-    }
-
-    function info_inline(data){
-        document.getElementById("info").innerHTML = data
-    }
-
-    function info_online(url) {
-        // display info about current APK
-        fetch( url /*, options */)
-            .then((response) => response.text())
-            .then((html) => {
-                info_inline(html);
-        })
-        .catch((error) => {
-            console.warn(error);
-        });
-    }
-
-    function frame_online(url) {
-        window.frames["iframe"].location = url;
-    }
-
-    </script>
+    tryRenderFormulas();
+});
+</script>
 
 </body>
 </html>
