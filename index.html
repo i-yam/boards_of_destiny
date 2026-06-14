@@ -24,6 +24,27 @@
             padding: 0 24px;
         }
 
+        /* Language toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            background: #2a2a44;
+            border: 1px solid #4a4a70;
+            border-radius: 20px;
+            color: #a0a0d0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 13px;
+            padding: 6px 14px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .lang-toggle:hover {
+            background: #363658;
+            border-color: #5a5a80;
+        }
+
         /* Hero */
         .hero {
             text-align: center;
@@ -305,38 +326,40 @@
 </head>
 <body>
 
+<button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">DE</button>
+
 <!-- Hero -->
 <div class="hero">
-    <h1>Why Do the Rich Get Richer? And What Does It Have to Do with Recommendation Algorithms?</h1>
-    <p style="margin-top:20px; color:#999; font-size:16px;">TL;DR: there is a <a href="https://youtu.be/U3CigXnwrJM" target="_blank">short video lecture</a> for this minimodule. It covers most of the material, however, the module works best if you read the text and watch the video too.</p>
+    <h1 data-i18n="hero_title">Why Do the Rich Get Richer? And What Does It Have to Do with Recommendation Algorithms?</h1>
+    <p style="margin-top:20px; color:#999; font-size:16px;" data-i18n="hero_tldr">TL;DR: there is a <a href="https://youtu.be/U3CigXnwrJM" target="_blank">short video lecture</a> for this minimodule. It covers most of the material, however, the module works best if you read the text and watch the video too.</p>
 </div>
 
 <div class="container">
 
 <!-- Section: The Galton Board -->
 <section>
-    <h2>The Galton Board</h2>
-    <p>Francis Galton built a strange machine in 1889. A ball drops from the top. It hits a peg. It goes left or right. Fifty-fifty. Then it hits another peg. Left or right again. By the bottom, after dozens of such meaningless little decisions, something remarkable happens. The balls pile up in the shape of a bell. Every time. Without fail.</p>
+    <h2 data-i18n="s1_h2">The Galton Board</h2>
+    <p data-i18n="s1_p1">Francis Galton built a strange machine in 1889. A ball drops from the top. It hits a peg. It goes left or right. Fifty-fifty. Then it hits another peg. Left or right again. By the bottom, after dozens of such meaningless little decisions, something remarkable happens. The balls pile up in the shape of a bell. Every time. Without fail.</p>
 
     <div class="two-col">
         <div>
             <div class="media-box"><img src="images/Galton.jpg" alt="Francis Galton"></div>
-            <div class="caption">Francis Galton</div>
+            <div class="caption" data-i18n="cap_galton">Francis Galton</div>
         </div>
         <div>
             <div class="media-box"><iframe src="https://www.youtube.com/embed/MnBBV73KbDo" title="Galton Board" allowfullscreen></iframe></div>
-            <div class="caption">Galton board</div>
+            <div class="caption" data-i18n="cap_board">Galton board</div>
         </div>
     </div>
 
-    <p>This is the Galton Board. A physical monument to one of the most important ideas in probability theory.</p>
+    <p data-i18n="s1_p2">This is the Galton Board. A physical monument to one of the most important ideas in probability theory.</p>
 
     <!-- Quiz 1 -->
     <div class="quiz" id="quiz1">
-        <div class="quiz-question">Do you remember what the Central Limit Theorem is?</div>
+        <div class="quiz-question" data-i18n="quiz1_q">Do you remember what the Central Limit Theorem is?</div>
         <div class="quiz-options">
-            <button class="quiz-btn" onclick="answerQuiz('quiz1', this, true)">Yes</button>
-            <button class="quiz-btn" onclick="answerQuiz('quiz1', this, false)">No</button>
+            <button class="quiz-btn" data-i18n="quiz1_yes" onclick="answerQuiz('quiz1', this, true)">Yes</button>
+            <button class="quiz-btn" data-i18n="quiz1_no" onclick="answerQuiz('quiz1', this, false)">No</button>
         </div>
         <div class="quiz-feedback" id="quiz1-feedback"></div>
     </div>
@@ -344,14 +367,14 @@
 
 <!-- Section: Many Small Things -->
 <section>
-    <h2>Many Small Things Add Up to One Familiar Shape</h2>
-    <p>Here is the deeper point. It is not just balls and pegs.</p>
-    <p>Take any random variable. Flip a coin. Roll a die. Measure how long it takes your professor to answer an email. Now take many of these&nbsp;&mdash; sum them up, average them out. Something happens. The distribution of that sum starts looking like a bell curve. It doesn't matter much what the original distribution was. You sum enough random things, you get the normal distribution.</p>
-    <p>This is the Central Limit Theorem. It is one of those results that feels like it shouldn't be true and yet refuses to go away.</p>
+    <h2 data-i18n="s2_h2">Many Small Things Add Up to One Familiar Shape</h2>
+    <p data-i18n="s2_p1">Here is the deeper point. It is not just balls and pegs.</p>
+    <p data-i18n="s2_p2">Take any random variable. Flip a coin. Roll a die. Measure how long it takes your professor to answer an email. Now take many of these&nbsp;&mdash; sum them up, average them out. Something happens. The distribution of that sum starts looking like a bell curve. It doesn't matter much what the original distribution was. You sum enough random things, you get the normal distribution.</p>
+    <p data-i18n="s2_p3">This is the Central Limit Theorem. It is one of those results that feels like it shouldn't be true and yet refuses to go away.</p>
 
     <!-- Quiz 2: Formulas -->
     <div class="quiz" id="quiz2">
-        <div class="quiz-question">Which formula shows the probability density function of a Normal Distribution?</div>
+        <div class="quiz-question" data-i18n="quiz2_q">Which formula shows the probability density function of a Normal Distribution?</div>
         <div class="quiz-options">
             <button class="quiz-btn formula-option" onclick="answerQuiz('quiz2', this, false)">
                 <span id="formula-pareto"></span>
@@ -366,41 +389,41 @@
 
 <!-- Section: Why Gauss Called It Normal -->
 <section class="clearfix">
-    <h2>Why Gauss Called It "Normal"</h2>
+    <h2 data-i18n="s3_h2">Why Gauss Called It "Normal"</h2>
 
     <img src="images/normal.jpg" alt="Normal distribution" class="img-left-sm">
 
-    <p>Carl Friedrich Gauss was not a humble man, but he was an honest one.</p>
-    <p>He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.</p>
-    <p>Gauss called it the normal distribution because it seemed to be the natural outcome of summed randomness. The universe's default answer when you ask it to add things up. The name stuck. The curve stayed.</p>
+    <p data-i18n="s3_p1">Carl Friedrich Gauss was not a humble man, but he was an honest one.</p>
+    <p data-i18n="s3_p2">He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.</p>
+    <p data-i18n="s3_p3">Gauss called it the normal distribution because it seemed to be the natural outcome of summed randomness. The universe's default answer when you ask it to add things up. The name stuck. The curve stayed.</p>
 </section>
 
 <!-- Section: Tinker with the Board -->
 <section class="clearfix">
-    <h2 style="color:#dc7850;">Now Let's Tinker with the Board</h2>
-    <p>The Galton Board produces beautiful bell curves under one silent assumption: each peg is fair. Each ball has a fifty-fifty chance, regardless of what happened before. The past does not matter. The ball does not remember.</p>
-    <p>But people do.</p>
+    <h2 style="color:#dc7850;" data-i18n="s4_h2">Now Let's Tinker with the Board</h2>
+    <p data-i18n="s4_p1">The Galton Board produces beautiful bell curves under one silent assumption: each peg is fair. Each ball has a fifty-fifty chance, regardless of what happened before. The past does not matter. The ball does not remember.</p>
+    <p data-i18n="s4_p2">But people do.</p>
 
     <img src="images/Pareto.jpg" alt="Vilfredo Pareto" class="img-left">
-    <div class="caption" style="float:left; clear:left; width:280px; margin-top:-12px;">Vilfredo Pareto</div>
+    <div class="caption" style="float:left; clear:left; width:280px; margin-top:-12px;" data-i18n="cap_pareto">Vilfredo Pareto</div>
 
-    <p>Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
-    <p>This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
+    <p data-i18n="s4_p3">Imagine a modified board. The ball's chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.</p>
+    <p data-i18n="s4_p4">This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.</p>
 
-    <p>The result will no longer be a bell curve, but it will still resemble a bell a bit. Just the bell will be shifted to the left. The thing is that nature is actually not very "normal" and the bell curves occur far less often than Gauss expected. Thus, we need to talk about another guy you can see on the photo.</p>
-    <p>Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden: 20 percent of the pea pods contained 80% of all the peas. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. This type of behaviour also emerges in social systems.</p>
+    <p data-i18n="s4_p5">The result will no longer be a bell curve, but it will still resemble a bell a bit. Just the bell will be shifted to the left. The thing is that nature is actually not very "normal" and the bell curves occur far less often than Gauss expected. Thus, we need to talk about another guy you can see on the photo.</p>
+    <p data-i18n="s4_p6">Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden: 20 percent of the pea pods contained 80% of all the peas. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. This type of behaviour also emerges in social systems.</p>
 
     <details class="collapsible-task">
-        <summary>A task for tough students</summary>
-        <p>This mini-module ends with a demo of three different Galton boards. Two of the boards produce non-normal distributions but none of the boards actually produces a Pareto distribution. If you feel that the force is with you, finish the module, go to the github repo listed in the end, fork it and try to build a modification of a Galton board that would produce an actual Pareto distribution.</p>
+        <summary data-i18n="task_summary">A task for tough students</summary>
+        <p data-i18n="task_p">This mini-module ends with a demo of three different Galton boards. Two of the boards produce non-normal distributions but none of the boards actually produces a Pareto distribution. If you feel that the force is with you, finish the module, go to the github repo listed in the end, fork it and try to build a modification of a Galton board that would produce an actual Pareto distribution.</p>
     </details>
 
     <!-- Quiz 3 -->
     <div class="quiz" id="quiz3">
-        <div class="quiz-question">Can you guess which is a Pareto Distribution?</div>
+        <div class="quiz-question" data-i18n="quiz3_q">Can you guess which is a Pareto Distribution?</div>
         <div class="quiz-options">
-            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, true)">Sales numbers of salesmen in a given organization</button>
-            <button class="quiz-btn" onclick="answerQuiz('quiz3', this, false)">Heights of salesmen in a given organization</button>
+            <button class="quiz-btn" data-i18n="quiz3_opt1" onclick="answerQuiz('quiz3', this, true)">Sales numbers of salesmen in a given organization</button>
+            <button class="quiz-btn" data-i18n="quiz3_opt2" onclick="answerQuiz('quiz3', this, false)">Heights of salesmen in a given organization</button>
         </div>
         <div class="quiz-feedback" id="quiz3-feedback"></div>
     </div>
@@ -408,12 +431,12 @@
 
 <!-- Section: Add Competition -->
 <section>
-    <h2 style="color:#8264dc;">Add Competition. Watch It Get Worse.</h2>
-    <p>Now introduce one more ingredient: other balls.</p>
-    <p>In the real world, you are not falling through pegs alone. You are falling through pegs while ten thousand other balls are doing the same. And your chance of going right is not just a function of your own history&nbsp;&mdash; it depends on how many balls are already to your right. More successful competitors means lower probability of success for you. Mathematically, the chance to jump right becomes inversely proportional to the number of balls ahead of you.</p>
-    <p>Run this simulation. The result is not a bell curve. It is not even the skewed Pareto curve from before. It is something sharper and more brutal: a power-law distribution. The overwhelming majority of balls&nbsp;&mdash; 80 percent, 90 percent, sometimes more&nbsp;&mdash; pile up in the leftmost bin. A tiny fraction accumulates almost everything.</p>
-    <p>This is not a hypothetical. This is book sales. The top 1 percent of published books account for the overwhelming majority of revenue. This is music streaming. A small number of songs collect most of the listens while millions of tracks sit in statistical silence. The rich get richer not because they are clever villains twirling mustaches in corner offices. They get richer because social systems are simultaneously random, competitive, and coupled with feedback. Three ingredients. That's the whole recipe.</p>
-    <p>Here is the demo of all three boards. Play around. Rerun the experiments. Observe how different rules result in different dynamics.</p>
+    <h2 style="color:#8264dc;" data-i18n="s5_h2">Add Competition. Watch It Get Worse.</h2>
+    <p data-i18n="s5_p1">Now introduce one more ingredient: other balls.</p>
+    <p data-i18n="s5_p2">In the real world, you are not falling through pegs alone. You are falling through pegs while ten thousand other balls are doing the same. And your chance of going right is not just a function of your own history&nbsp;&mdash; it depends on how many balls are already to your right. More successful competitors means lower probability of success for you. Mathematically, the chance to jump right becomes inversely proportional to the number of balls ahead of you.</p>
+    <p data-i18n="s5_p3">Run this simulation. The result is not a bell curve. It is not even the skewed Pareto curve from before. It is something sharper and more brutal: a power-law distribution. The overwhelming majority of balls&nbsp;&mdash; 80 percent, 90 percent, sometimes more&nbsp;&mdash; pile up in the leftmost bin. A tiny fraction accumulates almost everything.</p>
+    <p data-i18n="s5_p4">This is not a hypothetical. This is book sales. The top 1 percent of published books account for the overwhelming majority of revenue. This is music streaming. A small number of songs collect most of the listens while millions of tracks sit in statistical silence. The rich get richer not because they are clever villains twirling mustaches in corner offices. They get richer because social systems are simultaneously random, competitive, and coupled with feedback. Three ingredients. That's the whole recipe.</p>
+    <p data-i18n="s5_p5">Here is the demo of all three boards. Play around. Rerun the experiments. Observe how different rules result in different dynamics.</p>
 
     <div class="game-frame-wrap" style="margin: 30px auto;">
         <iframe src="game.html" title="Boards of Destiny Demo" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" allowfullscreen></iframe>
@@ -422,79 +445,236 @@
 
 <!-- Section: Enter the Algorithm -->
 <section>
-    <h2>Enter the Algorithm</h2>
-    <p>So far this has been probability theory and sociology. Now it becomes personal.</p>
-    <p>The content you see on social media is not entirely random. It is not curated by a thoughtful editor either. It is produced by a recommendation algorithm&nbsp;&mdash; a machine that has watched your behavior, found users who behave similarly, and decided to show you what those users also liked. This is called collaborative filtering, and it works remarkably well. It also does something else. It applies Galton Board dynamics to culture.</p>
-    <p>A content creator with more followers gets recommended to more users. More views mean more recommendations. More recommendations mean more views. A product on a marketplace with more reviews gets surfaced higher in search results, which generates more purchases, which generates more reviews. A restaurant with more ratings gets shown first, gets ordered from more, gets rated more. You see the structure. It is our "competitive" Galton Board, implemented in software, running at scale, optimizing for engagement.</p>
-    <p>In the literature, this is called the discovery problem. How does a new creator, a new product, a new restaurant break into a system that rewards incumbents? It is one of the genuinely hard problems in recommender systems design. Researchers publish papers on it. Companies run experiments. The problem persists. Partly because the feedback loop is not a bug&nbsp;&mdash; it is a natural consequence of using past behavior to predict future preferences. The algorithm is doing exactly what it was designed to do.</p>
+    <h2 data-i18n="s6_h2">Enter the Algorithm</h2>
+    <p data-i18n="s6_p1">So far this has been probability theory and sociology. Now it becomes personal.</p>
+    <p data-i18n="s6_p2">The content you see on social media is not entirely random. It is not curated by a thoughtful editor either. It is produced by a recommendation algorithm&nbsp;&mdash; a machine that has watched your behavior, found users who behave similarly, and decided to show you what those users also liked. This is called collaborative filtering, and it works remarkably well. It also does something else. It applies Galton Board dynamics to culture.</p>
+    <p data-i18n="s6_p3">A content creator with more followers gets recommended to more users. More views mean more recommendations. More recommendations mean more views. A product on a marketplace with more reviews gets surfaced higher in search results, which generates more purchases, which generates more reviews. A restaurant with more ratings gets shown first, gets ordered from more, gets rated more. You see the structure. It is our "competitive" Galton Board, implemented in software, running at scale, optimizing for engagement.</p>
+    <p data-i18n="s6_p4">In the literature, this is called the discovery problem. How does a new creator, a new product, a new restaurant break into a system that rewards incumbents? It is one of the genuinely hard problems in recommender systems design. Researchers publish papers on it. Companies run experiments. The problem persists. Partly because the feedback loop is not a bug&nbsp;&mdash; it is a natural consequence of using past behavior to predict future preferences. The algorithm is doing exactly what it was designed to do.</p>
 </section>
 
 <!-- Section: What You Can Do -->
 <section>
-    <h2>What You Can Do About It</h2>
-    <p>The algorithm is not your enemy. But it is not your friend either. It is a mirror that slightly distorts what it reflects, and then reflects the distortion back at you.</p>
-    <p>In most deployed recommendation systems, the algorithm controls what you discover far more than you control it. You click, it learns, it shows you more of the same. The loop tightens. The bubble forms. Not out of malice. Out of math.</p>
-    <p>But you have one advantage the algorithm lacks. You can act against your own history.</p>
-    <p>Search proactively. Look for creators you have never heard of. Order from the restaurant with twelve reviews, not twelve hundred. Try the book that has not been recommended to you. These small acts of deliberate exploration are exactly what the algorithm cannot do for you&nbsp;&mdash; because discovery, by definition, requires stepping outside the pattern the algorithm has learned.</p>
-    <p>The alternative is a media diet assembled by a machine trained on your past self. Every recommendation a reflection of who you already were. Every suggestion pulling you slightly further from the parts of the world that were not statistically adjacent to your previous clicks.</p>
-    <p>The Galton Board is indifferent. The pegs do not care where the ball lands.</p>
-    <p>You, presumably, do.</p>
+    <h2 data-i18n="s7_h2">What You Can Do About It</h2>
+    <p data-i18n="s7_p1">The algorithm is not your enemy. But it is not your friend either. It is a mirror that slightly distorts what it reflects, and then reflects the distortion back at you.</p>
+    <p data-i18n="s7_p2">In most deployed recommendation systems, the algorithm controls what you discover far more than you control it. You click, it learns, it shows you more of the same. The loop tightens. The bubble forms. Not out of malice. Out of math.</p>
+    <p data-i18n="s7_p3">But you have one advantage the algorithm lacks. You can act against your own history.</p>
+    <p data-i18n="s7_p4">Search proactively. Look for creators you have never heard of. Order from the restaurant with twelve reviews, not twelve hundred. Try the book that has not been recommended to you. These small acts of deliberate exploration are exactly what the algorithm cannot do for you&nbsp;&mdash; because discovery, by definition, requires stepping outside the pattern the algorithm has learned.</p>
+    <p data-i18n="s7_p5">The alternative is a media diet assembled by a machine trained on your past self. Every recommendation a reflection of who you already were. Every suggestion pulling you slightly further from the parts of the world that were not statistically adjacent to your previous clicks.</p>
+    <p data-i18n="s7_p6">The Galton Board is indifferent. The pegs do not care where the ball lands.</p>
+    <p data-i18n="s7_p7">You, presumably, do.</p>
 
     <img src="images/touchgrass.jpg" alt="" class="full-img">
 </section>
 
 <!-- Section: Exercise -->
 <section>
-    <h2>Exercise</h2>
-    <p>Now that you know what you know, let's think in practical terms. Imagine you lead a marketing department for a new streetwear brand. How do you build the social media presence given the challenges of recommendation system discovery? Leave your answer following this <a href="https://forms.gle/zEY83A4Wo4hQjbbFA" target="_blank">link to a google form</a>.</p>
+    <h2 data-i18n="s8_h2">Exercise</h2>
+    <p data-i18n="s8_p1">Now that you know what you know, let's think in practical terms. Imagine you lead a marketing department for a new streetwear brand. How do you build the social media presence given the challenges of recommendation system discovery? Leave your answer following this <a href="https://forms.gle/zEY83A4Wo4hQjbbFA" target="_blank">link to a google form</a>.</p>
 </section>
 
 <!-- Section: Tinker with the Code -->
 <section>
-    <h2>Tinker with the Demo</h2>
-    <p>If you want to tinker with the code more and create your own modification of the Galton board, the code is available here:</p>
+    <h2 data-i18n="s9_h2">Tinker with the Demo</h2>
+    <p data-i18n="s9_p1">If you want to tinker with the code more and create your own modification of the Galton board, the code is available here:</p>
     <p><a href="https://github.com/i-yam/boards_of_destiny" target="_blank">https://github.com/i-yam/boards_of_destiny</a></p>
 </section>
 
 </div>
 
-<footer>
+<footer data-i18n="footer">
     Boards of Destiny
 </footer>
 
 <script>
-// Quiz logic
-const quizData = {
-    quiz1: {
-        correct: "Well done!",
-        wrong: "No worries! Read further."
+// ── i18n ────────────────────────────────────────────────────────────
+// German is a first-pass translation and needs Ivan's voice review.
+const T = {
+    en: {
+        hero_title: "Why Do the Rich Get Richer? And What Does It Have to Do with Recommendation Algorithms?",
+        hero_tldr: 'TL;DR: there is a <a href="https://youtu.be/U3CigXnwrJM" target="_blank">short video lecture</a> for this minimodule. It covers most of the material, however, the module works best if you read the text and watch the video too.',
+        s1_h2: "The Galton Board",
+        s1_p1: "Francis Galton built a strange machine in 1889. A ball drops from the top. It hits a peg. It goes left or right. Fifty-fifty. Then it hits another peg. Left or right again. By the bottom, after dozens of such meaningless little decisions, something remarkable happens. The balls pile up in the shape of a bell. Every time. Without fail.",
+        cap_galton: "Francis Galton",
+        cap_board: "Galton board",
+        s1_p2: "This is the Galton Board. A physical monument to one of the most important ideas in probability theory.",
+        quiz1_q: "Do you remember what the Central Limit Theorem is?",
+        quiz1_yes: "Yes",
+        quiz1_no: "No",
+        s2_h2: "Many Small Things Add Up to One Familiar Shape",
+        s2_p1: "Here is the deeper point. It is not just balls and pegs.",
+        s2_p2: "Take any random variable. Flip a coin. Roll a die. Measure how long it takes your professor to answer an email. Now take many of these&nbsp;&mdash; sum them up, average them out. Something happens. The distribution of that sum starts looking like a bell curve. It doesn't matter much what the original distribution was. You sum enough random things, you get the normal distribution.",
+        s2_p3: "This is the Central Limit Theorem. It is one of those results that feels like it shouldn't be true and yet refuses to go away.",
+        quiz2_q: "Which formula shows the probability density function of a Normal Distribution?",
+        s3_h2: 'Why Gauss Called It "Normal"',
+        s3_p1: "Carl Friedrich Gauss was not a humble man, but he was an honest one.",
+        s3_p2: "He noticed something. Measurement errors in astronomy&nbsp;&mdash; random, chaotic, nobody's fault&nbsp;&mdash; followed this bell shape. Residuals in physics experiments. Random sums in gambling. The same curve kept showing up uninvited. Like that one colleague who appears at every department event regardless of whether they were invited.",
+        s3_p3: "Gauss called it the normal distribution because it seemed to be the natural outcome of summed randomness. The universe's default answer when you ask it to add things up. The name stuck. The curve stayed.",
+        s4_h2: "Now Let's Tinker with the Board",
+        s4_p1: "The Galton Board produces beautiful bell curves under one silent assumption: each peg is fair. Each ball has a fifty-fifty chance, regardless of what happened before. The past does not matter. The ball does not remember.",
+        s4_p2: "But people do.",
+        cap_pareto: "Vilfredo Pareto",
+        s4_p3: 'Imagine a modified board. The ball\'s chance of going right&nbsp;&mdash; of "winning" a given step&nbsp;&mdash; is not 0.5. It is 0.5 divided by <em>k</em>, where <em>k</em> is the number of times it has already gone left. Every failure makes the next win slightly harder. Not because the pegs changed. Because the ball carries its history.',
+        s4_p4: "This is not an abstraction. Think of an athlete on a losing streak. Think of a student who failed one exam and cannot stop thinking about it during the next one. The feedback loop is psychological, but the mathematics doesn't care about your feelings. It just computes the outcome.",
+        s4_p5: 'The result will no longer be a bell curve, but it will still resemble a bell a bit. Just the bell will be shifted to the left. The thing is that nature is actually not very "normal" and the bell curves occur far less often than Gauss expected. Thus, we need to talk about another guy you can see on the photo.',
+        s4_p6: "Vilfredo Pareto noticed in 1896 that roughly 80 percent of land in Italy was owned by 20 percent of the population. He found the same pattern in peas in his garden: 20 percent of the pea pods contained 80% of all the peas. The 80/20 rule appears so often in economics and nature that it has acquired an almost mythological status. This type of behaviour also emerges in social systems.",
+        task_summary: "A task for tough students",
+        task_p: "This mini-module ends with a demo of three different Galton boards. Two of the boards produce non-normal distributions but none of the boards actually produces a Pareto distribution. If you feel that the force is with you, finish the module, go to the github repo listed in the end, fork it and try to build a modification of a Galton board that would produce an actual Pareto distribution.",
+        quiz3_q: "Can you guess which is a Pareto Distribution?",
+        quiz3_opt1: "Sales numbers of salesmen in a given organization",
+        quiz3_opt2: "Heights of salesmen in a given organization",
+        s5_h2: "Add Competition. Watch It Get Worse.",
+        s5_p1: "Now introduce one more ingredient: other balls.",
+        s5_p2: "In the real world, you are not falling through pegs alone. You are falling through pegs while ten thousand other balls are doing the same. And your chance of going right is not just a function of your own history&nbsp;&mdash; it depends on how many balls are already to your right. More successful competitors means lower probability of success for you. Mathematically, the chance to jump right becomes inversely proportional to the number of balls ahead of you.",
+        s5_p3: "Run this simulation. The result is not a bell curve. It is not even the skewed Pareto curve from before. It is something sharper and more brutal: a power-law distribution. The overwhelming majority of balls&nbsp;&mdash; 80 percent, 90 percent, sometimes more&nbsp;&mdash; pile up in the leftmost bin. A tiny fraction accumulates almost everything.",
+        s5_p4: "This is not a hypothetical. This is book sales. The top 1 percent of published books account for the overwhelming majority of revenue. This is music streaming. A small number of songs collect most of the listens while millions of tracks sit in statistical silence. The rich get richer not because they are clever villains twirling mustaches in corner offices. They get richer because social systems are simultaneously random, competitive, and coupled with feedback. Three ingredients. That's the whole recipe.",
+        s5_p5: "Here is the demo of all three boards. Play around. Rerun the experiments. Observe how different rules result in different dynamics.",
+        s6_h2: "Enter the Algorithm",
+        s6_p1: "So far this has been probability theory and sociology. Now it becomes personal.",
+        s6_p2: 'The content you see on social media is not entirely random. It is not curated by a thoughtful editor either. It is produced by a recommendation algorithm&nbsp;&mdash; a machine that has watched your behavior, found users who behave similarly, and decided to show you what those users also liked. This is called collaborative filtering, and it works remarkably well. It also does something else. It applies Galton Board dynamics to culture.',
+        s6_p3: 'A content creator with more followers gets recommended to more users. More views mean more recommendations. More recommendations mean more views. A product on a marketplace with more reviews gets surfaced higher in search results, which generates more purchases, which generates more reviews. A restaurant with more ratings gets shown first, gets ordered from more, gets rated more. You see the structure. It is our "competitive" Galton Board, implemented in software, running at scale, optimizing for engagement.',
+        s6_p4: "In the literature, this is called the discovery problem. How does a new creator, a new product, a new restaurant break into a system that rewards incumbents? It is one of the genuinely hard problems in recommender systems design. Researchers publish papers on it. Companies run experiments. The problem persists. Partly because the feedback loop is not a bug&nbsp;&mdash; it is a natural consequence of using past behavior to predict future preferences. The algorithm is doing exactly what it was designed to do.",
+        s7_h2: "What You Can Do About It",
+        s7_p1: "The algorithm is not your enemy. But it is not your friend either. It is a mirror that slightly distorts what it reflects, and then reflects the distortion back at you.",
+        s7_p2: "In most deployed recommendation systems, the algorithm controls what you discover far more than you control it. You click, it learns, it shows you more of the same. The loop tightens. The bubble forms. Not out of malice. Out of math.",
+        s7_p3: "But you have one advantage the algorithm lacks. You can act against your own history.",
+        s7_p4: "Search proactively. Look for creators you have never heard of. Order from the restaurant with twelve reviews, not twelve hundred. Try the book that has not been recommended to you. These small acts of deliberate exploration are exactly what the algorithm cannot do for you&nbsp;&mdash; because discovery, by definition, requires stepping outside the pattern the algorithm has learned.",
+        s7_p5: "The alternative is a media diet assembled by a machine trained on your past self. Every recommendation a reflection of who you already were. Every suggestion pulling you slightly further from the parts of the world that were not statistically adjacent to your previous clicks.",
+        s7_p6: "The Galton Board is indifferent. The pegs do not care where the ball lands.",
+        s7_p7: "You, presumably, do.",
+        s8_h2: "Exercise",
+        s8_p1: 'Now that you know what you know, let\'s think in practical terms. Imagine you lead a marketing department for a new streetwear brand. How do you build the social media presence given the challenges of recommendation system discovery? Leave your answer following this <a href="https://forms.gle/zEY83A4Wo4hQjbbFA" target="_blank">link to a google form</a>.',
+        s9_h2: "Tinker with the Demo",
+        s9_p1: "If you want to tinker with the code more and create your own modification of the Galton board, the code is available here:",
+        footer: "Boards of Destiny"
     },
-    quiz2: {
-        correct: "Well done!",
-        wrong: "You chose the probability density function of a Pareto Distribution. And we'll talk about it in a minute. Read on!"
-    },
-    quiz3: {
-        correct: "Well done!",
-        wrong: "Not quite! Height tends to follow a Normal Distribution. Sales numbers, on the other hand, often follow a Pareto Distribution &mdash; a few top performers account for most of the revenue."
+    de: {
+        hero_title: "Warum werden die Reichen reicher? Und was hat das mit Empfehlungsalgorithmen zu tun?",
+        hero_tldr: 'TL;DR: Zu diesem Minimodul gibt es eine <a href="https://youtu.be/U3CigXnwrJM" target="_blank">kurze Videovorlesung</a>. Sie deckt den Gro&szlig;teil des Stoffs ab. Am besten funktioniert das Modul aber, wenn du den Text liest und das Video schaust.',
+        s1_h2: "Das Galton-Brett",
+        s1_p1: "Francis Galton baute 1889 eine seltsame Maschine. Eine Kugel f&auml;llt von oben. Sie trifft auf einen Stift. Sie geht nach links oder rechts. F&uuml;nfzig zu f&uuml;nfzig. Dann trifft sie den n&auml;chsten Stift. Wieder links oder rechts. Unten angekommen, nach Dutzenden solcher bedeutungsloser kleiner Entscheidungen, passiert etwas Bemerkenswertes. Die Kugeln h&auml;ufen sich in Form einer Glocke. Jedes Mal. Ohne Ausnahme.",
+        cap_galton: "Francis Galton",
+        cap_board: "Galton-Brett",
+        s1_p2: "Das ist das Galton-Brett. Ein physisches Denkmal f&uuml;r eine der wichtigsten Ideen der Wahrscheinlichkeitstheorie.",
+        quiz1_q: "Erinnerst du dich, was der zentrale Grenzwertsatz ist?",
+        quiz1_yes: "Ja",
+        quiz1_no: "Nein",
+        s2_h2: "Viele kleine Dinge ergeben eine vertraute Form",
+        s2_p1: "Hier kommt der tiefere Punkt. Es geht nicht nur um Kugeln und Stifte.",
+        s2_p2: "Nimm irgendeine Zufallsvariable. Wirf eine M&uuml;nze. W&uuml;rfle. Miss, wie lange dein Professor braucht, um eine E-Mail zu beantworten. Jetzt nimm viele davon, summiere sie auf, bilde den Durchschnitt. Etwas passiert. Die Verteilung dieser Summe beginnt wie eine Glockenkurve auszusehen. Es spielt kaum eine Rolle, wie die urspr&uuml;ngliche Verteilung aussah. Du summierst genug zuf&auml;llige Dinge, und du bekommst die Normalverteilung.",
+        s2_p3: "Das ist der zentrale Grenzwertsatz. Eines jener Ergebnisse, das sich anf&uuml;hlt, als d&uuml;rfte es nicht wahr sein, und sich trotzdem nicht absch&uuml;tteln l&auml;sst.",
+        quiz2_q: "Welche Formel zeigt die Dichtefunktion einer Normalverteilung?",
+        s3_h2: 'Warum Gau&szlig; sie &bdquo;normal&ldquo; nannte',
+        s3_p1: "Carl Friedrich Gau&szlig; war kein bescheidener Mann, aber ein ehrlicher.",
+        s3_p2: "Ihm fiel etwas auf. Messfehler in der Astronomie, zuf&auml;llig, chaotisch, niemandes Schuld, folgten dieser Glockenform. Residuen in physikalischen Experimenten. Zuf&auml;llige Summen beim Gl&uuml;cksspiel. Dieselbe Kurve tauchte immer wieder ungebeten auf. Wie dieser eine Kollege, der bei jeder Abteilungsfeier erscheint, egal ob er eingeladen war.",
+        s3_p3: "Gau&szlig; nannte sie Normalverteilung, weil sie das nat&uuml;rliche Ergebnis summierter Zuf&auml;lligkeit zu sein schien. Die Standardantwort des Universums, wenn man es bittet, Dinge zu addieren. Der Name blieb. Die Kurve blieb.",
+        s4_h2: "Jetzt basteln wir am Brett",
+        s4_p1: "Das Galton-Brett erzeugt sch&ouml;ne Glockenkurven unter einer stillen Annahme: Jeder Stift ist fair. Jede Kugel hat eine F&uuml;nfzig-zu-f&uuml;nfzig-Chance, unabh&auml;ngig davon, was vorher geschah. Die Vergangenheit spielt keine Rolle. Die Kugel erinnert sich nicht.",
+        s4_p2: "Menschen aber schon.",
+        cap_pareto: "Vilfredo Pareto",
+        s4_p3: 'Stell dir ein ver&auml;ndertes Brett vor. Die Chance der Kugel, nach rechts zu gehen, einen Schritt zu &bdquo;gewinnen&ldquo;, ist nicht 0,5. Sie ist 0,5 geteilt durch <em>k</em>, wobei <em>k</em> die Anzahl der Male ist, die sie bereits nach links gegangen ist. Jeder Misserfolg macht den n&auml;chsten Gewinn etwas schwerer. Nicht weil sich die Stifte ver&auml;ndert haben. Weil die Kugel ihre Geschichte mit sich tr&auml;gt.',
+        s4_p4: "Das ist keine Abstraktion. Denk an einen Sportler in einer Pechstr&auml;hne. Denk an einen Studenten, der eine Pr&uuml;fung nicht bestanden hat und w&auml;hrend der n&auml;chsten nicht aufh&ouml;ren kann, daran zu denken. Die R&uuml;ckkopplungsschleife ist psychologisch, aber die Mathematik k&uuml;mmert sich nicht um deine Gef&uuml;hle. Sie berechnet einfach das Ergebnis.",
+        s4_p5: 'Das Ergebnis wird keine Glockenkurve mehr sein, aber es &auml;hnelt immer noch ein wenig einer Glocke. Nur ist die Glocke nach links verschoben. Die Sache ist die: Die Natur ist eigentlich gar nicht so &bdquo;normal&ldquo;, und Glockenkurven treten weit seltener auf, als Gau&szlig; erwartete. Deshalb m&uuml;ssen wir &uuml;ber einen anderen Mann sprechen, den du auf dem Foto siehst.',
+        s4_p6: "Vilfredo Pareto bemerkte 1896, dass rund 80 Prozent des Landes in Italien 20 Prozent der Bev&ouml;lkerung geh&ouml;rten. Dasselbe Muster fand er bei den Erbsen in seinem Garten: 20 Prozent der Schoten enthielten 80 Prozent aller Erbsen. Die 80/20-Regel taucht in Wirtschaft und Natur so oft auf, dass sie fast mythischen Status erlangt hat. Dieses Verhalten entsteht auch in sozialen Systemen.",
+        task_summary: "Eine Aufgabe f&uuml;r harte Studierende",
+        task_p: "Dieses Minimodul endet mit einer Demo von drei verschiedenen Galton-Brettern. Zwei der Bretter erzeugen nicht-normale Verteilungen, aber keines erzeugt tats&auml;chlich eine Pareto-Verteilung. Wenn du das Gef&uuml;hl hast, die Macht ist mit dir, beende das Modul, geh zum am Ende verlinkten GitHub-Repo, forke es und versuch, eine Abwandlung des Galton-Bretts zu bauen, die eine echte Pareto-Verteilung erzeugt.",
+        quiz3_q: "Kannst du erraten, was eine Pareto-Verteilung ist?",
+        quiz3_opt1: "Verkaufszahlen von Verk&auml;ufern in einer Organisation",
+        quiz3_opt2: "K&ouml;rpergr&ouml;&szlig;en von Verk&auml;ufern in einer Organisation",
+        s5_h2: "F&uuml;ge Konkurrenz hinzu. Sieh zu, wie es schlimmer wird.",
+        s5_p1: "Jetzt kommt eine weitere Zutat dazu: andere Kugeln.",
+        s5_p2: "In der echten Welt f&auml;llst du nicht allein durch die Stifte. Du f&auml;llst durch die Stifte, w&auml;hrend zehntausend andere Kugeln dasselbe tun. Und deine Chance, nach rechts zu gehen, h&auml;ngt nicht nur von deiner eigenen Geschichte ab, sondern davon, wie viele Kugeln bereits rechts von dir sind. Mehr erfolgreiche Konkurrenten bedeuten eine geringere Erfolgswahrscheinlichkeit f&uuml;r dich. Mathematisch wird die Chance, nach rechts zu springen, umgekehrt proportional zur Zahl der Kugeln vor dir.",
+        s5_p3: "Lass diese Simulation laufen. Das Ergebnis ist keine Glockenkurve. Es ist nicht einmal die schiefe Pareto-Kurve von vorhin. Es ist etwas Sch&auml;rferes und Brutaleres: eine Potenzgesetz-Verteilung. Die &uuml;berw&auml;ltigende Mehrheit der Kugeln, 80 Prozent, 90 Prozent, manchmal mehr, h&auml;uft sich im &auml;u&szlig;ersten linken Beh&auml;lter. Ein winziger Bruchteil sammelt fast alles.",
+        s5_p4: "Das ist nicht hypothetisch. Das sind Buchverk&auml;ufe. Das oberste eine Prozent der ver&ouml;ffentlichten B&uuml;cher macht den &uuml;berw&auml;ltigenden Gro&szlig;teil des Umsatzes aus. Das ist Musik-Streaming. Eine kleine Zahl von Songs sammelt die meisten Streams, w&auml;hrend Millionen von Tracks in statistischer Stille verharren. Die Reichen werden reicher, nicht weil sie clevere Schurken sind, die in Eckb&uuml;ros am Schnurrbart drehen. Sie werden reicher, weil soziale Systeme zugleich zuf&auml;llig, kompetitiv und mit R&uuml;ckkopplung gekoppelt sind. Drei Zutaten. Das ist das ganze Rezept.",
+        s5_p5: "Hier ist die Demo aller drei Bretter. Probier herum. Wiederhole die Experimente. Beobachte, wie unterschiedliche Regeln zu unterschiedlicher Dynamik f&uuml;hren.",
+        s6_h2: "Auftritt des Algorithmus",
+        s6_p1: "Bisher war das Wahrscheinlichkeitstheorie und Soziologie. Jetzt wird es pers&ouml;nlich.",
+        s6_p2: 'Die Inhalte, die du in sozialen Medien siehst, sind nicht v&ouml;llig zuf&auml;llig. Sie werden auch nicht von einem bedachten Redakteur kuratiert. Sie werden von einem Empfehlungsalgorithmus erzeugt, einer Maschine, die dein Verhalten beobachtet hat, Nutzer mit &auml;hnlichem Verhalten gefunden hat und beschlossen hat, dir zu zeigen, was diesen Nutzern auch gefiel. Das nennt man kollaboratives Filtern, und es funktioniert bemerkenswert gut. Es tut aber noch etwas anderes. Es wendet die Galton-Brett-Dynamik auf Kultur an.',
+        s6_p3: 'Ein Content-Creator mit mehr Followern wird mehr Nutzern empfohlen. Mehr Aufrufe bedeuten mehr Empfehlungen. Mehr Empfehlungen bedeuten mehr Aufrufe. Ein Produkt auf einem Marktplatz mit mehr Bewertungen erscheint h&ouml;her in den Suchergebnissen, was mehr K&auml;ufe erzeugt, was mehr Bewertungen erzeugt. Ein Restaurant mit mehr Bewertungen wird zuerst angezeigt, wird &ouml;fter bestellt, wird &ouml;fter bewertet. Du siehst die Struktur. Es ist unser &bdquo;kompetitives&ldquo; Galton-Brett, in Software umgesetzt, im gro&szlig;en Ma&szlig;stab laufend, auf Engagement optimiert.',
+        s6_p4: "In der Literatur nennt man das Discovery-Problem. Wie bricht ein neuer Creator, ein neues Produkt, ein neues Restaurant in ein System ein, das Etablierte belohnt? Es ist eines der wirklich schweren Probleme beim Entwurf von Empfehlungssystemen. Forscher ver&ouml;ffentlichen Paper dar&uuml;ber. Unternehmen f&uuml;hren Experimente durch. Das Problem bleibt. Zum Teil, weil die R&uuml;ckkopplungsschleife kein Fehler ist, sondern eine nat&uuml;rliche Folge davon, vergangenes Verhalten zur Vorhersage k&uuml;nftiger Vorlieben zu nutzen. Der Algorithmus tut genau das, wof&uuml;r er entworfen wurde.",
+        s7_h2: "Was du dagegen tun kannst",
+        s7_p1: "Der Algorithmus ist nicht dein Feind. Aber er ist auch nicht dein Freund. Er ist ein Spiegel, der das, was er reflektiert, leicht verzerrt, und dir die Verzerrung dann zur&uuml;ckwirft.",
+        s7_p2: "In den meisten eingesetzten Empfehlungssystemen steuert der Algorithmus, was du entdeckst, weit mehr, als du ihn steuerst. Du klickst, er lernt, er zeigt dir mehr vom Gleichen. Die Schleife zieht sich zusammen. Die Blase bildet sich. Nicht aus Bosheit. Aus Mathematik.",
+        s7_p3: "Aber du hast einen Vorteil, der dem Algorithmus fehlt. Du kannst gegen deine eigene Geschichte handeln.",
+        s7_p4: "Such aktiv. Halt Ausschau nach Creators, von denen du nie geh&ouml;rt hast. Bestell beim Restaurant mit zw&ouml;lf Bewertungen, nicht beim mit zw&ouml;lfhundert. Probier das Buch, das dir nicht empfohlen wurde. Diese kleinen Akte bewusster Erkundung sind genau das, was der Algorithmus nicht f&uuml;r dich tun kann, denn Entdeckung erfordert per Definition, aus dem Muster auszubrechen, das der Algorithmus gelernt hat.",
+        s7_p5: "Die Alternative ist eine Mediendi&auml;t, zusammengestellt von einer Maschine, die auf dein vergangenes Ich trainiert wurde. Jede Empfehlung ein Spiegel dessen, wer du bereits warst. Jeder Vorschlag zieht dich ein St&uuml;ck weiter weg von den Teilen der Welt, die nicht statistisch benachbart zu deinen fr&uuml;heren Klicks waren.",
+        s7_p6: "Das Galton-Brett ist gleichg&uuml;ltig. Den Stiften ist egal, wo die Kugel landet.",
+        s7_p7: "Dir vermutlich nicht.",
+        s8_h2: "Aufgabe",
+        s8_p1: 'Jetzt, wo du wei&szlig;t, was du wei&szlig;t, lass uns praktisch denken. Stell dir vor, du leitest eine Marketingabteilung f&uuml;r eine neue Streetwear-Marke. Wie baust du die Pr&auml;senz in sozialen Medien auf, angesichts der Herausforderungen der Entdeckung in Empfehlungssystemen? Hinterlass deine Antwort &uuml;ber diesen <a href="https://forms.gle/zEY83A4Wo4hQjbbFA" target="_blank">Link zu einem Google-Formular</a>.',
+        s9_h2: "Bastle mit der Demo",
+        s9_p1: "Wenn du mehr mit dem Code basteln und deine eigene Abwandlung des Galton-Bretts erstellen willst, ist der Code hier verf&uuml;gbar:",
+        footer: "Boards of Destiny"
     }
 };
 
+let currentLang = 'en';
+
+function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (T[lang] && T[lang][key] !== undefined) {
+            el.innerHTML = T[lang][key];
+        }
+    });
+    document.getElementById('lang-toggle').textContent = (lang === 'en') ? 'DE' : 'EN';
+    // Refresh any already-answered quiz feedback in the new language
+    Object.keys(quizState).forEach(function(quizId) {
+        renderFeedback(quizId, quizState[quizId]);
+    });
+}
+
+function toggleLang() {
+    setLang(currentLang === 'en' ? 'de' : 'en');
+}
+
+// ── Quiz logic ──────────────────────────────────────────────────────
+const quizData = {
+    quiz1: {
+        en: { correct: "Well done!", wrong: "No worries! Read further." },
+        de: { correct: "Gut gemacht!", wrong: "Kein Problem! Lies weiter." }
+    },
+    quiz2: {
+        en: { correct: "Well done!", wrong: "You chose the probability density function of a Pareto Distribution. And we'll talk about it in a minute. Read on!" },
+        de: { correct: "Gut gemacht!", wrong: "Du hast die Dichtefunktion einer Pareto-Verteilung gew\u00e4hlt. Dar\u00fcber sprechen wir gleich. Lies weiter!" }
+    },
+    quiz3: {
+        en: { correct: "Well done!", wrong: "Not quite! Height tends to follow a Normal Distribution. Sales numbers, on the other hand, often follow a Pareto Distribution &mdash; a few top performers account for most of the revenue." },
+        de: { correct: "Gut gemacht!", wrong: "Nicht ganz! K\u00f6rpergr\u00f6\u00dfe folgt eher einer Normalverteilung. Verkaufszahlen dagegen folgen oft einer Pareto-Verteilung: ein paar Top-Performer machen den Gro\u00dfteil des Umsatzes aus." }
+    }
+};
+
+// Tracks which quizzes were answered and whether correctly, so feedback
+// can be re-rendered when the language changes.
+const quizState = {};
+
+function renderFeedback(quizId, isCorrect) {
+    const feedback = document.getElementById(quizId + '-feedback');
+    const data = quizData[quizId][currentLang];
+    if (isCorrect) {
+        feedback.className = 'quiz-feedback success';
+        feedback.innerHTML = data.correct;
+    } else {
+        feedback.className = 'quiz-feedback fail';
+        feedback.innerHTML = data.wrong;
+    }
+}
+
 function answerQuiz(quizId, btn, isCorrect) {
     const quiz = document.getElementById(quizId);
-    const feedback = document.getElementById(quizId + '-feedback');
     const buttons = quiz.querySelectorAll('.quiz-btn');
 
     buttons.forEach(b => b.classList.add('disabled'));
 
     if (isCorrect) {
         btn.classList.add('correct');
-        feedback.className = 'quiz-feedback success';
-        feedback.innerHTML = quizData[quizId].correct;
     } else {
         btn.classList.add('wrong');
-        feedback.className = 'quiz-feedback fail';
-        feedback.innerHTML = quizData[quizId].wrong;
     }
+
+    quizState[quizId] = isCorrect;
+    renderFeedback(quizId, isCorrect);
 }
 
 // Render KaTeX formulas once loaded
